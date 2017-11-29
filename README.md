@@ -14,3 +14,8 @@ My end goal is to implement a double linked list queue that takes user input to 
   5. close the program
 
 This program is intended for personal education, and I plan on updating it as I learn more concepts in JavaScript
+
+
+Along with this README file, this repository contains:
+  1. a JavaScript file with the entire implementation of the dll queue (DoubleLinkedListQueue.js)
+  2. an html file to run said JavaScript file (DoubleLinkedListQueue.html)(I plan to expand on this when I get the chance to learn more about html)
