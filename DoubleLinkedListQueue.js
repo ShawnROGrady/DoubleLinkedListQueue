@@ -19,10 +19,9 @@
   -dequeue values
   -print the queue (forward or reverse)
     -changing print direction involves changing the queue's public API
-      -for my own personal practice
-+Still need to add:
+      -for my own personal practice w/ modules
   -search functionality
-  -support fo user input
+  -from user input
 */
 
 //using strict mode for safety
@@ -65,7 +64,7 @@ function dllQueue(){
     var newNode=dllNode();
     newNode.setValue(input);
     elements++;
-    console.log(input+" was enqueued");
+    alert(input+" was enqueued");
     if(tail.value!=null){
       //there are things in the queue
       tail.setNextNode(newNode);
@@ -88,15 +87,43 @@ function dllQueue(){
         head=dllNode();
         tail=dllNode();
       }
+      alert(tmp.value+" was dequeued");
       elements--;
     }else{
-      console.log("queue is empty, cannot dequeue anything");
+      alert("queue is empty, cannot dequeue anything");
     }
   }
-  /*
-  function doSearch(searchValue){
 
-  }*/
+  function doSearch(searchValue){
+    var position=0;  //position of value searched for in queue
+
+    if(head.value!=null){
+      //there are things in the queue
+      var tmp=head;
+
+      //traverse queue searching for specific value
+      do{
+        if (tmp.value==searchValue){
+          //value found
+          break;
+        }
+        tmp=tmp.nextNode;
+        position++;
+      }while(tmp!=tail);
+
+      //at this point, we've either find the value or are at the tail
+      if(tmp.value!=searchValue){
+        alert(searchValue+" was not found in the queue");
+      }
+      else{
+        alert(searchValue+" found in queue at position: "+position+"\r(position 0 being the next to be dequeued)");
+      }
+
+    }else{
+      //queue is empty
+      alert("queue is empty, cannot search for a value");
+    }
+  }
 
   function printForward(){
     if(head.value!=null){
@@ -112,9 +139,9 @@ function dllQueue(){
         i++;
         forwardString=forwardString+i+". " +tmp.value+"\r";
       }
-      console.log(forwardString);
+      alert(forwardString);
     }else{
-      console.log("queue is empty");
+      alert("queue is empty");
     }
 
   }
@@ -133,9 +160,9 @@ function dllQueue(){
         i--;
         reverseString=reverseString+i+". " +tmp.value+"\r";
       }
-      console.log(reverseString);
+      alert(reverseString);
     }else{
-      console.log("queue is empty");
+      alert("queue is empty");
     }
   }
 
@@ -147,7 +174,7 @@ function dllQueue(){
       publicAPI.print=printReverse;
     }
     else{
-      console.log("invalid input");
+      alert("invalid input");
     }
 
   }
@@ -155,7 +182,7 @@ function dllQueue(){
   var publicAPI={
     enqueue:doEnqueue,
     dequeue:doDequeue,
-    //search:doSearch,
+    search:doSearch,
     changePrint:changePrint,
     print:printForward  //prints in forward direction first
   };
@@ -164,6 +191,43 @@ function dllQueue(){
 
 }
 
+//main function:
+(function main(){
+  var q=dllQueue();
+  var choice;
+  do{
+    choice=prompt("What would you like to do? \r 1. enqueue a value \r 2. dequeue a value \r 3. print the queue \r 4. search the queue \r 5. terminate program");
+    if(choice==1){
+      //enqueue a value
+      var userInput=prompt("enter a value to enqueue");
+      q.enqueue(userInput);
+    }
+    else if(choice==2){
+      //dequeue a value
+      q.dequeue();
+    }
+    else if(choice==3){
+      //print the queue
+      var dir=prompt("which direction do you wish to print (\"forward\" or \"reverse\")?");
+      q.changePrint(dir);
+      q.print();
+    }
+    else if(choice==4){
+      //search the queue
+      var searchInput=prompt("enter a value to search for");
+      q.search(searchInput);
+    }
+    else if (choice==5||choice==null){
+      //user wants to terminate or hit "cancel" button
+      alert("thank you for using this program");
+    }
+    else{
+      //invalid choice
+      alert("please enter a valid choice");
+    }
+  }while(choice!=5 && choice!=null);
+})();
+/*
 //testing basic functionality:
 var q=dllQueue();
 
@@ -206,3 +270,4 @@ q.enqueue("nine");
 q.print();  //0. six,1. seven,2. eight,3. nine
 q.changePrint("r");
 q.print();  //3. nine,2. eight,1. seven,0. six
+*/
